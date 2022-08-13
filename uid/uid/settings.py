@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 
+from pathlib import Path
+from constants.ConstVarible import db_config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -80,10 +81,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'uid',
-        'USER': 'root',
-        'PASSWORD': 'admin',
+        'USER': db_config["USER"],
+        'PASSWORD': db_config["PASSWORD"],
         'HOST': 'localhost',
-        'PORT': '3306'
+        'PORT': db_config["PORT"]
     }
 }
 
