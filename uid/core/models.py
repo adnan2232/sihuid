@@ -57,6 +57,7 @@ class College(models.Model):
     
     college_name = models.CharField(max_length=50,null=False)
     college_type = models.CharField(max_length=20,null=False)
+    college_id = models.IntegerField(primary_key=True)
     university = models.ForeignKey(University,on_delete=models.DO_NOTHING,related_name="university")
     uni_level_id=models.IntegerField(null=False)
     objects = CollegeManager()
