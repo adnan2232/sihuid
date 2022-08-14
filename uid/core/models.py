@@ -40,11 +40,27 @@ class University(models.Model):
     
     def __str__(self):
         return str(self.uni_name)
-    
+
+class CollegeManager(models.Manager):
+
+    def create_college(self, college_name, uni_name, uni_level_id):
+        university = University.objects.get(uni_name = uni_name.lower().replace(" ", ''))
+        college_id = int(str(university.uni_id) + str(uni_level_id))
+        college = self.create(
+            college_name = college_name.lower().replace(" ", ""),
+            university = university,
+            uni_level_id = uni_level_id,
+            college_id = college_id
+        )
+        return college
 class College(models.Model):
     
     college_name = models.CharField(max_length=50,null=False)
     college_type = models.CharField(max_length=20,null=False)
-    university = models.ForeignKey(University,on_delete=models.DO_NOTHING) 
+    university = models.ForeignKey(University,on_delete=models.DO_NOTHING,related_name="university")
     uni_level_id=models.IntegerField(null=False)
+    objects = CollegeManager()
+
+    def __str__(self):
+        return str(self.college_name)
     
