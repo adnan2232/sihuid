@@ -133,3 +133,44 @@ class Student(models.Model):
     
     objects =  StudentManager()
     
+
+class AICTEManager(BaseUserManager):
+    
+    def create_aicte_user(self, aicte_username, aicte_email, password):
+        
+        aicte_user = User.objects.create_superuser(
+            username = aicte_username, 
+            email = aicte_email, 
+            password = password
+            )
+        
+        aicte_user.save()
+
+        aicte = self.create(
+            aicte_username = aicte_username,
+            aicte_email = aicte_email,
+            password = password,
+            aicte_user = aicte_user
+        )
+        aicte.save(using = self._db)
+        return aicte
+
+
+class AICTE(models.Model):
+
+
+    aicte_username = models.CharField(max_length=50, null=False)
+    aicte_email = models.EmailField(
+        verbose_name="email_id",
+        max_length=255,
+        unique=True,
+        null=False
+    )
+    password = models.CharField(max_length = 50, null = False, blank = False)
+    
+    aicte_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='aicte_user')
+
+    objects = AICTEManager()
+
+    def __str__(self):
+        return (self.aicte_username)
