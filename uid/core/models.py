@@ -77,43 +77,36 @@ class College(models.Model):
 
 class StudentManager(models.Manager):
     
-    def create_student(self,college_id,grno,admission_date,student_ext_id=None):
+    def create_student(self,college_id,grno,admission_date,student_ext_id):
         
         college = College.objects.get(college_id=college_id)
-        grno = "".join([str(ord(x)%9) for x in grno])
-        student_current_id = int(str(college.college_id)+str(grno)+str(admission_date.year))
+        student_current_id = str(college.college_id)+str(grno)+str(admission_date.year)
         
-        if student_ext_id:
-            
-            try:
+        try:
                 
-                student = self.get(student_ext_id=student_ext_id)
-                student_ext_id = student.student_ext_id.id
+            student = self.get(student_ext_id=student_ext_id)
+            student_ext_id = student.student_ext_id
                 
-                while student.student_next_id:
-                    student = self.get(student_current_id=student.student_next_id)
+            while student.student_next_id:
+                student = self.get(student_current_id=student.student_next_id)
                     
-                new_student = self.create(
-                    student_current_id = student_current_id,
-                    student_prev_id =  student.student_current_id,
-                    student_ext_id = student_ext_id,
-                    student_college=college,
-                    student_admission_date = admission_date
-                )
+            new_student = self.create(
+                student_current_id = student_current_id,
+                student_prev_id =  student.student_current_id,
+                student_ext_id = student_ext_id,
+                student_college=college,
+                student_admission_date = admission_date
+            )
                 
-                new_student.save(using=self._db)
-                student.student_next_id=student_current_id
-                student.save(using=self._db)
-                return new_student
+            new_student.save(using=self._db)
+            student.student_next_id=student_current_id
+            student.save(using=self._db)
+            return new_student
              
-            except ObjectDoesNotExist:
-                raise ObjectDoesNotExist("Student Doesn't exist")
-            
-        else:
-            print(student_current_id)
+        except Exception:
             student = self.create(
                 student_current_id = student_current_id,
-                student_ext_id = student_current_id,
+                student_ext_id = student_ext_id,
                 student_college =college,
                 student_grno = grno,
                 student_admission_date = admission_date
@@ -121,21 +114,18 @@ class StudentManager(models.Manager):
             
             student.save(using=self._db)
             return student
+        
+            
             
             
    
 class Student(models.Model):
-    salt = '*eyw$h8tutdvd6$m&za-x(1)s$7)-me58%g2p29l(^5#7a7mw1'  #Please don't change the salt
     
-    student_current_id = models.BigIntegerField(primary_key=True)
-    student_prev_id = models.BigIntegerField(default=None,null=True)
-    student_next_id = models.BigIntegerField(default=None,null=True)
+    student_current_id = models.CharField(primary_key=True, max_length=100)
+    student_prev_id = models.CharField(default=None,null=True,max_length=100)
+    student_next_id = models.CharField(default=None,null=True, max_length=100)
     
-    student_ext_id =  BigHashidField(
-        salt="student_student_id_"+salt,
-        allow_int_lookup=True,
-        enable_hashid_object=True,
-    )
+    student_ext_id =  models.BigIntegerField(null=False)
     
     student_college =  models.ForeignKey(College,on_delete=models.CASCADE)
     student_grno = models.CharField(max_length=20)
