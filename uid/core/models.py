@@ -5,7 +5,8 @@ from hashid_field import BigHashidField
 # Create your models here.
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import hashers
-
+from django.core.mail import send_mail
+from django.conf import settings
 class User(AbstractUser):
     pass
 
@@ -20,6 +21,7 @@ class UniversityManager(models.Manager):
             comes_under=comes_under
         )
         return university
+
 class University(models.Model):
     uni_type = models.CharField(max_length=100)
     uni_name = models.CharField(max_length=50,null=False)
@@ -35,9 +37,9 @@ class CollegeManager(BaseUserManager):
     def create_college(self, college_name, uni_name,college_email, uni_level_id,password=None):
         
         university = University.objects.get(uni_name = uni_name.lower().replace(" ", ''))
-        college_id = int(str(university.uni_id) + str(uni_level_id))
+        college_id = str(university.uni_id) + str(uni_level_id)
         password = "college@"+hashers.make_password(str(college_id))[:6]
-        college_user = User.objects.create(
+        college_user = User.objects.create_user(
             username  = college_id,
             email=college_email,
             password=password,
@@ -53,10 +55,17 @@ class CollegeManager(BaseUserManager):
             college_user=college_user,
         )
         college.save(using=self._db)
-        return college
+        
+        send_mail(
+            subject="Your ID and Password for AICTE login is",
+            message=f"College id: {college_id} and College Password: {password}",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[college_email]
+        )
+        return college,password
 class College(models.Model):
     
-    college_id = models.IntegerField(primary_key=True)
+    college_id = models.CharField(primary_key=True,max_length=100)
     college_email =  models.EmailField(
         verbose_name="email_id",
         max_length=255,
@@ -74,7 +83,6 @@ class College(models.Model):
     def __str__(self):
         return str(self.college_name)
     
-
 class StudentManager(models.Manager):
     
     def create_student(self,college_id,grno,admission_date,student_ext_id):
@@ -114,11 +122,7 @@ class StudentManager(models.Manager):
             
             student.save(using=self._db)
             return student
-        
-            
-            
-            
-   
+                  
 class Student(models.Model):
     
     student_current_id = models.CharField(primary_key=True, max_length=100)
@@ -133,7 +137,6 @@ class Student(models.Model):
     
     objects =  StudentManager()
     
-
 class AICTEManager(BaseUserManager):
     
     def create_aicte_user(self, aicte_username, aicte_email, password):
@@ -154,7 +157,6 @@ class AICTEManager(BaseUserManager):
         )
         aicte.save(using = self._db)
         return aicte
-
 
 class AICTE(models.Model):
 
