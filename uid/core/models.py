@@ -38,7 +38,7 @@ class CollegeManager(BaseUserManager):
         
         university = University.objects.get(uni_name = uni_name.lower().replace(" ", ''))
         college_id = str(university.uni_id) + str(uni_level_id)
-        password = "college@"+hashers.make_password(str(college_id))[:6]
+        password = "college@"+hashers.make_password(str(college_id))[-7:]
         college_user = User.objects.create_user(
             username  = college_id,
             email=college_email,
