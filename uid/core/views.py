@@ -16,7 +16,23 @@ def homepage(request):
     return render(request,"index.html",context=context)
 
 def aicte_login(request):
-    pass
+    if request.method == "POST":
+        
+        data = request.POST.dict()
+        username = data["aicte_username"]
+        password = data["aicte_password"]
+        user = authenticate(request,username=str(username),password=str(password))
+        if user is not None:
+            login(request,user)
+            # print("success")
+            return redirect("homepage")
+        else:
+            context = {"errors":["Username or Password Incorrect"]}
+            return render(request,"aicte_login.html",context=context)
+        
+    else:
+        context = {"errors":[]}
+        return render(request,"aicte_login.html",context=context)
         
     
 

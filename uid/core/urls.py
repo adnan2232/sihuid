@@ -6,4 +6,4 @@ urlpatterns = [
     path("",homepage,name="homepage"),
     path("collegelogin",college_login,name="college_login"), 
     path("upload_students_data", upload_students_data, name = "upload_students_data")
-]
+    ]
