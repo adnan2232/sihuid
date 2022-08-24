@@ -55,7 +55,9 @@ def college_login(request):
         context = {"errors":[]}
         return render(request,"college_login.html",context=context)
     
-    
+ 
+def view_students_data(request):
+    pass 
 def upload_students_data(request):
     
     if request.method  == "POST":
@@ -64,7 +66,7 @@ def upload_students_data(request):
         for x in student_data.index:
             result.append(list(student_data.loc[x].values)+[x])
         
-        return render(request,"students_data.html",context = {"student_data":result})
+        return view_students_data(request)
         
     
     else:
