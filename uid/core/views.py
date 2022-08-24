@@ -1,8 +1,12 @@
+from operator import index
+from unittest import result
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.shortcuts import render,HttpResponse,redirect
 import json
 from core.models import User
+import pandas as pd
+
 # Create your views here.
 def homepage(request):
     context = {
@@ -34,5 +38,21 @@ def college_login(request):
     else:
         context = {"errors":[]}
         return render(request,"college_login.html",context=context)
+    
+    
+def upload_students_data(request):
+    
+    if request.method  == "POST":
+        student_data = pd.read_csv(request.FILES["student_data"],index_col="adhar_number")
+        result = []
+        for x in student_data.index:
+            result.append(list(student_data.loc[x].values)+[x])
+        
+        return render(request,"students_data.html",context = {"student_data":result})
+        
+    
+    else:
+        return render(request,"upload_students_data.html",context = {})
+        
         
         
