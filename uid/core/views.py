@@ -48,7 +48,8 @@ def college_login(request):
         if user is not None:
             login(request,user)
             print("success")
-            return redirect(upload_students_data)
+            return render(request, "clg_dashboard.html")
+            # return redirect(upload_students_data)
         else:
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"college_login.html",context=context)
@@ -82,7 +83,7 @@ def upload_students_data(request):
             # print(x[1])
             # print(x[2])
             # print(x[3])
-            stu = Student.objects.create_student(student_name = x[0], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[3], '%d/%m/%Y'), student_ext_id = x[1])
+            stu = Student.objects.create_student(student_name = x[0], student_gender = x[3], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[4], '%d-%m-%Y'), student_ext_id = x[1])
     
         return view_students_data(request)
         
