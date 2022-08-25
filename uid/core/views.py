@@ -49,7 +49,7 @@ def college_login(request):
         if user is not None:
             login(request,user)
             print("success")
-            return render(request, "clg_dashboard.html")
+            return redirect(college_dashboard)
             # return redirect(upload_students_data)
         else:
             context = {"errors":["Username or Password Incorrect"]}
@@ -118,3 +118,7 @@ def aicte_toggle(request):
             return render(request,"aicte_toggle.html")
     except:
         return redirect(".")
+    
+    
+def college_dashboard(request):
+    return render(request,"clg_dashboard.html")
