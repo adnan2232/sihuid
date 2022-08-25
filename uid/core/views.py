@@ -84,7 +84,15 @@ def upload_students_data(request):
             # print(x[1])
             # print(x[2])
             # print(x[3])
-            stu = Student.objects.create_student(student_name = x[0], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[3], '%d/%m/%Y'), student_ext_id = x[1])
+            try:
+                student = Student.objects.get(
+                    student_current_id = str(request.user.college_user.college_id)+str(x[2])+str(datetime.datetime.strptime(x[3], '%d-%m-%Y'))
+                )
+                
+                if student.student_gender != x[0]:
+                    pass
+            except:
+                Student.objects.create_student(student_name = x[0], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[3], '%d-%m-%Y'), student_ext_id = x[1])
     
         return view_students_data(request)
         
@@ -122,3 +130,28 @@ def aicte_toggle(request):
     
 def college_dashboard(request):
     return render(request,"clg_dashboard.html")
+
+
+def upload_college(request):
+    
+    if request.method == "POST":
+        college_data = pd.read_csv(request.FILES["college_data"])
+        data = college_data.values.tolist()
+        for x in data:
+            # print(x[0])
+            # print(x[1])
+            # print(x[2])
+            # print(x[3])
+            College.objects.create_college(
+                college_name=x[0],
+                uni_name=x[3],
+                college_email=x[2],
+                uni_level_id=x[4],
+                college_type=x[1]
+            )
+        return redirect(aicte_view_college_data)
+    else:
+        return render(request,"upload_college.html")
+        
+
+    

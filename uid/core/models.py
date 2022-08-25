@@ -24,7 +24,7 @@ class UniversityManager(models.Manager):
 
 class University(models.Model):
     uni_type = models.CharField(max_length=100)
-    uni_name = models.CharField(max_length=50,null=False)
+    uni_name = models.CharField(max_length=100,null=False)
     uni_id = models.IntegerField(primary_key=True,editable=True) #Later make editable False
     comes_under = models.CharField(max_length=100)
     objects = UniversityManager()
@@ -34,13 +34,13 @@ class University(models.Model):
 
 class CollegeManager(BaseUserManager):
 
-    def create_college(self, college_name, uni_name,college_email, uni_level_id,password=None):
+    def create_college(self, college_name, uni_name,college_email, uni_level_id,college_type, aicte_approved="No",password=None):
         
         university = University.objects.get(uni_name = uni_name.lower().replace(" ", ''))
         college_id = str(university.uni_id) + str(uni_level_id)
         password = "college@"+hashers.make_password(str(college_id))[-7:]
         college_user = User.objects.create_user(
-            username  = college_id,
+            username  = college_id+college_name,
             email=college_email,
             password=password,
             is_staff=False,
@@ -53,6 +53,7 @@ class CollegeManager(BaseUserManager):
             uni_level_id = uni_level_id,
             college_id = college_id,
             college_user=college_user,
+            college_type=college_type
         )
         college.save(using=self._db)
         
@@ -73,8 +74,8 @@ class College(models.Model):
         null=False
     )
     college_user = models.OneToOneField(User,on_delete=models.CASCADE,related_name="college_user")
-    college_name = models.CharField(max_length=50,null=False)
-    college_type = models.CharField(max_length=20,null=False)
+    college_name = models.CharField(max_length=100,null=False)
+    college_type = models.CharField(max_length=100,null=False)
     university = models.ForeignKey(University,on_delete=models.CASCADE,related_name="university")
     uni_level_id = models.IntegerField(null=False)
     aicte_approved = models.BooleanField(default=False) 
@@ -85,7 +86,7 @@ class College(models.Model):
     
 class StudentManager(models.Manager):
     
-    def create_student(self, student_name, student_gender, college_id,grno,admission_date,student_ext_id):
+    def create_student(self, student_name, student_gender, college_id,grno,admission_date,student_ext_id,student_year,student_branch,student_department,student_cgpa):
         
         college = College.objects.get(college_id=college_id)
         student_current_id = str(college.college_id)+str(grno)+str(admission_date.year)
@@ -105,7 +106,11 @@ class StudentManager(models.Manager):
                 student_prev_id =  student.student_current_id,
                 student_ext_id = student_ext_id,
                 student_college=college,
-                student_admission_date = admission_date
+                student_admission_date = admission_date,
+                student_year=student_year,
+                student_branch=student_branch,
+                student_department=student_department,
+                student_cgpa=student_cgpa
             )
                 
             new_student.save(using=self._db)
@@ -121,7 +126,11 @@ class StudentManager(models.Manager):
                 student_ext_id = student_ext_id,
                 student_college =college,
                 student_grno = grno,
-                student_admission_date = admission_date
+                student_admission_date = admission_date,
+                student_year=student_year,
+                student_branch=student_branch,
+                student_department=student_department,
+                student_cgpa=student_cgpa
             )
             
             student.save(using=self._db)
@@ -130,7 +139,7 @@ class StudentManager(models.Manager):
 class Student(models.Model):
     
     student_current_id = models.CharField(primary_key=True, max_length=100)
-    student_name = models.CharField(max_length=50)
+    student_name = models.CharField(max_length=100)
 
     GENDER_CHOICES = (
         ('M', 'Male'),
@@ -146,6 +155,10 @@ class Student(models.Model):
     student_college =  models.ForeignKey(College,on_delete=models.CASCADE)
     student_grno = models.CharField(max_length=20)
     student_admission_date = models.DateField()
+    student_year = models.IntegerField()
+    student_branch = models.CharField(max_length=100,default="")
+    student_department = models.CharField(max_length=100,default="")
+    student_cgpa = models.FloatField(default=0)
     
     class Meta:
         ordering = ["-student_admission_date"]
