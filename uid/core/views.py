@@ -3,6 +3,9 @@ from unittest import result
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.shortcuts import render,HttpResponse,redirect
+from .models import College, Student
+import datetime
+import csv
 import json
 from core.models import User
 import pandas as pd
@@ -25,7 +28,7 @@ def aicte_login(request):
         if user is not None:
             login(request,user)
             # print("success")
-            return redirect("homepage")
+            return redirect(aicte_view_college_data)
         else:
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"aicte_login.html",context=context)
@@ -34,7 +37,6 @@ def aicte_login(request):
         context = {"errors":[]}
         return render(request,"aicte_login.html",context=context)
         
-    
 
 def college_login(request):
     if request.method == "POST":
@@ -46,7 +48,7 @@ def college_login(request):
         if user is not None:
             login(request,user)
             print("success")
-            return redirect("homepage")
+            return redirect(upload_students_data)
         else:
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"college_login.html",context=context)
@@ -55,22 +57,53 @@ def college_login(request):
         context = {"errors":[]}
         return render(request,"college_login.html",context=context)
     
- 
+
+def user_logout(request):
+    logout(request)
+    return redirect(homepage)
+
 def view_students_data(request):
-    pass 
+
+    print(request.user.college_user)
+
+    result = request.user.college_user.student_set.all()
+    # print(result)
+    return render(request, "students_data.html", context = {"student_data": result})
+
+
 def upload_students_data(request):
     
     if request.method  == "POST":
-        student_data = pd.read_csv(request.FILES["student_data"],index_col="adhar_number")
-        result = []
-        for x in student_data.index:
-            result.append(list(student_data.loc[x].values)+[x])
         
+        student_data = pd.read_csv(request.FILES["student_data"])
+        data = student_data.values.tolist()
+        for x in data:
+            # print(x[0])
+            # print(x[1])
+            # print(x[2])
+            # print(x[3])
+            stu = Student.objects.create_student(student_name = x[0], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[3], '%d/%m/%Y'), student_ext_id = x[1])
+    
         return view_students_data(request)
         
-    
     else:
         return render(request,"upload_students_data.html",context = {})
         
-        
-        
+
+def aicte_view_college_data(request):
+
+    result = College.objects.all()
+
+    print(result)
+
+    return render(request, "college_data.html", context = {"college_data": result})
+
+
+def aicte_view_students_data(request):
+
+    result = Student.objects.all()
+
+    print(result)
+
+    return render(request, "aicte_students_data.html", context = {"student_data": result})
+    

@@ -85,7 +85,7 @@ class College(models.Model):
     
 class StudentManager(models.Manager):
     
-    def create_student(self,college_id,grno,admission_date,student_ext_id):
+    def create_student(self, student_name, college_id,grno,admission_date,student_ext_id):
         
         college = College.objects.get(college_id=college_id)
         student_current_id = str(college.college_id)+str(grno)+str(admission_date.year)
@@ -99,6 +99,7 @@ class StudentManager(models.Manager):
                 student = self.get(student_current_id=student.student_next_id)
                     
             new_student = self.create(
+                student_name = student_name,
                 student_current_id = student_current_id,
                 student_prev_id =  student.student_current_id,
                 student_ext_id = student_ext_id,
@@ -113,6 +114,7 @@ class StudentManager(models.Manager):
              
         except Exception:
             student = self.create(
+                student_name = student_name,
                 student_current_id = student_current_id,
                 student_ext_id = student_ext_id,
                 student_college =college,
@@ -126,6 +128,7 @@ class StudentManager(models.Manager):
 class Student(models.Model):
     
     student_current_id = models.CharField(primary_key=True, max_length=100)
+    student_name = models.CharField(max_length=50)
     student_prev_id = models.CharField(default=None,null=True,max_length=100)
     student_next_id = models.CharField(default=None,null=True, max_length=100)
     

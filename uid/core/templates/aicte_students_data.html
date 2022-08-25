@@ -7,11 +7,12 @@
     <title>Students Data</title>
 </head>
 <body>
-    {% for student in student_data%}
+    {% for stu in student_data%}
 
-        <p>Student name: {{student.student_name}}</p>
-        <p>Adhar Number: {{student.student_ext_id}}</p>
-        <p>Gr Number: {{student.student_grno}} </p>
+        <p>Student name: {{ stu.student_name }}</p>
+        <p>College name: {{ stu.student_college.college_name }}</p>
+        <p>Adhar Number: {{ stu.student_ext_id }}</p>
+        <p>Gr Number: {{ stu.student_grno }} </p>
     {% endfor %}
 
     <button><a href = "/logout">Log out</a></button>

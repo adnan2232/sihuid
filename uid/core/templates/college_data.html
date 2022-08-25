@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students Data</title>
+    <title>College Data</title>
 </head>
 <body>
-    {% for student in student_data%}
+    {% for clg in college_data%}
 
-        <p>Student name: {{student.student_name}}</p>
-        <p>Adhar Number: {{student.student_ext_id}}</p>
-        <p>Gr Number: {{student.student_grno}} </p>
+        <p>College name: {{ clg.college_name }}</p>
+        <p>College ID: {{ clg.college_id }}</p>
+        <p>University: {{ clg.university.uni_name }}</p>
+        
     {% endfor %}
+
+    <button><a href = "/view_student_data">Students Data</a></button>
 
     <button><a href = "/logout">Log out</a></button>
 </body>
