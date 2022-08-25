@@ -138,6 +138,8 @@ class Student(models.Model):
     student_grno = models.CharField(max_length=20)
     student_admission_date = models.DateField()
     
+    class Meta:
+        ordering = ["-student_admission_date"]
     objects =  StudentManager()
     
 class AICTEManager(BaseUserManager):

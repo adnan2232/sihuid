@@ -1,5 +1,6 @@
 from operator import index
 from unittest import result
+from urllib import response
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.shortcuts import render,HttpResponse,redirect
@@ -28,7 +29,7 @@ def aicte_login(request):
         if user is not None:
             login(request,user)
             # print("success")
-            return redirect(aicte_view_college_data)
+            return redirect(aicte_toggle)
         else:
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"aicte_login.html",context=context)
@@ -82,7 +83,17 @@ def upload_students_data(request):
             # print(x[1])
             # print(x[2])
             # print(x[3])
-            stu = Student.objects.create_student(student_name = x[0], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[3], '%d/%m/%Y'), student_ext_id = x[1])
+            
+            try:
+                student = Student.objects.get(student_current_id=str(request.user.college_user.college_id)+str(x[2])+str(datetime.datetime.strptime(x[3], '%d-%m-%Y').year))
+                if student.student_name != x[0]:
+                    student.student_name = x[0]
+                    student.save()
+                elif student.student_ext_id != int(x[1]):
+                    student.student_ext_id = int(x[1])   
+                    student.save()
+            except:
+                Student.objects.create_student(student_name = x[0], college_id = request.user, grno = x[2], admission_date =  datetime.datetime.strptime(x[3], '%d/%m/%Y'), student_ext_id = x[1])
     
         return view_students_data(request)
         
@@ -94,16 +105,25 @@ def aicte_view_college_data(request):
 
     result = College.objects.all()
 
-    print(result)
-
     return render(request, "college_data.html", context = {"college_data": result})
 
 
 def aicte_view_students_data(request):
 
     result = Student.objects.all()
-
     print(result)
+    return render(request, "aicte_view_students_data.html", context = {"students_data": result})
 
-    return render(request, "aicte_students_data.html", context = {"student_data": result})
+def student_data(request,adhar_no):
     
+    student_data = Student.objects.filter(student_ext_id = adhar_no)
+    return render(request,"individ_student_data.html",context={"student_data":student_data})
+
+def aicte_toggle(request):
+    
+    try:
+        
+        if request.user.aicte_user:
+            return render(request,"aicte_toggle.html")
+    except:
+        return redirect(".")
