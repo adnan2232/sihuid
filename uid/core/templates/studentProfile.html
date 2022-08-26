@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +18,7 @@
                 <div class="d-flex flex-column min-vh-100">
                     <a href="/"
                         class="d-flex align-items-center pb-0 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <img src="images/logo.png" class="aicte-logo mx-5 mt-5 mb-4" width="90" height="90">
+                        <img src="{%static 'images/moe.png'%}" class="aicte-logo mx-5 mt-5 mb-4" width="90" height="90">
                     </a>
                     <ul class="nav flex-column align-items-center" id="menu">
 
@@ -39,6 +40,13 @@
                             <a href="{% url 'student_college_data'%}" style="text-decoration:none">
                             <button type="button" class="btn btn-outline-warning m-1">
                                 Add Academic details
+                            </button>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'edit_data'%}" style="text-decoration:none">
+                            <button type="button" class="btn btn-outline-warning m-1">
+                                Edit Data
                             </button>
                             </a>
                         </li>

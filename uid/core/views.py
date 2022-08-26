@@ -29,6 +29,7 @@ def homepage(request):
     }
     return render(request,"index.html",context=context)
 
+
 def aicte_login(request):
     if request.method == "POST":
         
@@ -38,7 +39,6 @@ def aicte_login(request):
         user = authenticate(request,username=str(username),password=str(password))
         if user is not None:
             login(request,user)
-            # print("success")
             return redirect(aicte_toggle)
         else:
             context = {"errors":["Username or Password Incorrect"]}
@@ -60,7 +60,6 @@ def college_login(request):
             login(request,user)
             print("success")
             return redirect(college_dashboard)
-            # return redirect(upload_students_data)
         else:
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"college_login.html",context=context)
@@ -74,13 +73,12 @@ def user_logout(request):
     logout(request)
     return redirect(homepage)
 
+
 def view_students_data(request):
 
     print(request.user.college_user)
 
-    # result = request.user.college_user.student_set.all()
     result = StudentCollegeData.objects.filter(college = request.user.college_user)
-    # print(result)
     return render(request, "students_data.html", context = {"student_data": result})
 
 
@@ -91,10 +89,6 @@ def upload_students_data(request):
         student_data = pd.read_csv(request.FILES["student_data"])
         data = student_data.values.tolist()
         for x in data:
-            # print(x[0])
-            # print(x[1])
-            # print(x[2])
-            # print(x[3])
             try:
                 student = Student.objects.get(
                     student_current_id = str(request.user.college_user.college_id)+str(x[2])+str(datetime.datetime.strptime(x[3], '%d-%m-%Y'))
@@ -124,26 +118,24 @@ def aicte_view_college_data(request):
 def aicte_view_students_data(request):
 
     result = Student.objects.all()
-    print(result)
 
     myFilter = StudentFilter(request.GET, queryset = result)
     result = myFilter.qs
 
     return render(request, "aicte_view_students_data.html", context = {"students_data": result, "myFilter":myFilter})
 
+
 def student_data(request,adhar_no):
     
     student_data = Student.objects.get(student__adhar_id = adhar_no)
     return render(request,"individ_student_data.html",context={"student_data":student_data})
 
+# aicte
+# 3112_aicte
 def aicte_toggle(request):
     
-    try:
-        
-        if request.user.aicte_user:
-            return render(request,"aicte_toggle.html")
-    except:
-        return redirect(".")
+    return render(request,"aicte_toggle.html")
+    
     
     
 def college_dashboard(request):
@@ -156,10 +148,6 @@ def upload_college(request):
         college_data = pd.read_csv(request.FILES["college_data"])
         data = college_data.values.tolist()
         for x in data:
-            # print(x[0])
-            # print(x[1])
-            # print(x[2])
-            # print(x[3])
             College.objects.create_college(
                 college_name=x[0],
                 uni_name=x[3],
@@ -215,6 +203,7 @@ def add_student_college_data(request):
             depart = data["depart"]
         )
         
+
 def studentLogin(request):
     if request.method == "POST":
         
@@ -232,13 +221,16 @@ def studentLogin(request):
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"index.html",context=context)
 
+
 def student_profile(request):
     
     return render(request,"studentProfile.html", {"student":Student.objects.get(adhar_id=int(request.user.username))})
 
+
 def student_college_data(request):
     
     return render(request,"student_college_data.html",{"student_college_data":request.user.student.studentcollegedata_set.all()})
+
 
 def add_academic_details(request):
     
@@ -271,5 +263,6 @@ def add_academic_details(request):
         return render(request,"add_student_academic_data.html",context={"colleges_data":result})
             
         
-        
+def edit_data(request):
+    pass
 
