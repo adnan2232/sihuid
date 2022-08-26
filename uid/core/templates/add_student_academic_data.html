@@ -7,14 +7,26 @@
     <title>Student Education</title>
 </head>
 <body>
-    <form method="post" action="{%url 'add_student_academic_data'%}">
-        <input type="College" list="Colleges" id="colleges-list" class="form-control" placeholder="Select..." name="college_id"/>
-                <datalist id="Colleges">
-                    {% for college_data in collegesdata%}
+    <div class="pseudo_form" method="post" action="{%url 'add_student_academic_data'%}">
+        College: <select type="College" list="Colleges" id="colleges-list" class="form-control" placeholder="Select..." name="college_id">
+            {% for college_data in colleges_data%}
+                <option value="{{college_data.college_id}}">{{college_data.college_name}}</option>
+            {% endfor %}
+        </select><br> 
+        doa: <input type="date" name="doa"><br>
+        semester: <input type="text" name="semester"><br>
+        branch: <input type="text" name="branch"><br>
+        department: <input type="text" name="department"><br>
+        grno: <input type="text" name="grno"><br>
+        <input type="submit" >
+    </div>
 
-                        <option value="{{college_data.}}">{{college_data.}}</option>
-                    {% endfor %}
-                </datalist>
-    </form>
+    {% for error in errors%}
+        {{error}}
+    {% endfor %}
 </body>
+<script>
+
+</script>
+
 </html>
