@@ -11,6 +11,8 @@ import json
 from core.models import User
 import pandas as pd
 
+from .filters import CollegeFilter
+
 # Create your views here.
 def homepage(request):
     context = {
@@ -104,7 +106,10 @@ def aicte_view_college_data(request):
 
     result = College.objects.all()
 
-    return render(request, "college_data.html", context = {"college_data": result})
+    myFilter = CollegeFilter(request.GET, queryset=result)
+    result = myFilter.qs
+
+    return render(request, "college_data.html", context = {"college_data": result, "myFilter":myFilter})
 
 
 def aicte_view_students_data(request):

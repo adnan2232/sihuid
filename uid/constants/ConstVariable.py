@@ -1,5 +1,5 @@
 db_config = {
     "USER":"root",
-    "PASSWORD":"admin",
+    "PASSWORD":"root",
     "PORT":"3306"
 }
