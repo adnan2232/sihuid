@@ -228,3 +228,37 @@ def student_profile(request):
 def student_college_data(request):
     
     return render(request,"student_college_data.html",{"student_college_data":request.user.student.studentcollegedata_set.all()})
+
+def add_academic_details(request):
+    
+    if request.method == "POST":
+        try:
+            data = request.POST.dict()
+            college = College.objects.get(college_id=data["college_id"])
+            student_college = StudentCollegeData.object.create_student_college_data(
+                student=request.user.student_user,
+                college=college,
+                date_of_admission=datetime.datetime.strptime(data["doa"]),
+                semester=data["semester"],
+                branch=data["branch"],
+                depart=data["depart"],
+                gr_no=data["grno"]
+                )
+            
+            return redirect(student_college_data)
+        
+        except:
+            request.method = "GET"
+            return render(request,"add_student_academic_data.html",context={"errors":["Somethings went Wrong!!!"]})
+    
+    else:
+        colleges = College.objects.all()
+        result = []
+        for college in colleges:
+            result.append({"college_name":college.college_name,"college_id":college.college_id})
+            
+        return render(request,"add_student_academic_data.html",context={"colleges_data":result})
+            
+        
+        
+
