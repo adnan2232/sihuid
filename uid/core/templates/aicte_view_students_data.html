@@ -36,10 +36,11 @@
 
     <div>
         <div class="container-xl mt-3">
-            <form class="row">
-                <div class="col-auto">
+            <form method = "get"class="row">
+                {% comment %} <div class="col-auto">
                     <input type="text" class="form-control" placeholder="Student Name">
-                </div>
+                </div> {% endcomment %}
+                {{ myFilter.form.as_p }}
                 <div class="col-auto">
                     <button type="submit" class="btn btn-secondary">Search</button>
                 </div>
@@ -60,19 +61,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for student_data in students_data%}
-                    <tr>
-                        <th scope="row">{{student_data.adhar_id}}</th>
-                        <td>{{student_data.name}}</td>
-                        <td>{{student_data.dob}}</td>
-                        <td>{{student_data.city}}</td>
-                        <td>{{student_data.state}}</td>
-                        <td>{{student_data.zipcode}}</td>
-                        <td>{{student_data.email}}</td>
-                        <td>{{student_data.mobile_number}}</td>
-                        <td><a type="button" class="btn-primary" href="{% url 'student_data' student_data.adhar_id%}">More</a></td>
-                    </tr>
-                    {% endfor %}
+
+                    {% if myFilter.qs %}
+                        {% for student_data in myFilter.qs %}
+                            <tr>
+                                <th scope="row">{{student_data.adhar_id}}</th>
+                                <td>{{student_data.name}}</td>
+                                <td>{{student_data.dob}}</td>
+                                <td>{{student_data.city}}</td>
+                                <td>{{student_data.state}}</td>
+                                <td>{{student_data.zipcode}}</td>
+                                <td>{{student_data.email}}</td>
+                                <td>{{student_data.mobile_number}}</td>
+                                <td><a type="button" class="btn-primary" href="{% url 'student_data' student_data.adhar_id%}">More</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        {% for college in college_data%}
+                            <tr>
+                                <th scope="row">{{student_data.adhar_id}}</th>
+                                <td>{{student_data.name}}</td>
+                                <td>{{student_data.dob}}</td>
+                                <td>{{student_data.city}}</td>
+                                <td>{{student_data.state}}</td>
+                                <td>{{student_data.zipcode}}</td>
+                                <td>{{student_data.email}}</td>
+                                <td>{{student_data.mobile_number}}</td>
+                                <td><a type="button" class="btn-primary" href="{% url 'student_data' student_data.adhar_id%}">More</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>

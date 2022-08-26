@@ -15,3 +15,11 @@ class CollegeFilter(django_filters.FilterSet):
         #     'college_name',
         #     'university__uni_name'
         # ]
+
+class StudentFilter(django_filters.FilterSet):
+    adhar_id = django_filters.CharFilter(lookup_expr='icontains')
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    city = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        models = Student
