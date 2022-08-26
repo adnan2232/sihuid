@@ -1,117 +1,334 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link rel="stylesheet" href="navbar.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
 
 <body>
-    <div class="container-xl mt-5 d-flex justify-content-center">
-        <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#aicte_login">
-            AICTE login
-        </button>
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <div class="col-auto bg-dark border border-warning border-2 border-start-0 border-bottom-0 border-top-0">
+        <div class="d-flex flex-column min-vh-100">
+          <a href="/" class="d-flex align-items-center pb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="images/logo.png" class="aicte-logo mx-5 mt-5 mb-4" width="90" height="90">
+          </a>
+          <ul class="nav flex-column align-items-center" id="menu">
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-warning m-1" data-bs-toggle="modal"
+                data-bs-target="#aicte_login">
+                AICTE login
+              </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-warning m-1" data-bs-toggle="modal"
+                data-bs-target="#college_login">
+                College login
+              </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-warning m-1" data-bs-toggle="modal"
+                data-bs-target="#student_login">
+                Student login
+              </button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-warning m-1" data-bs-toggle="modal"
+                data-bs-target="#student_register">
+                Student register
+              </button>
+            </li>
+          </ul>
 
-        <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#college_login">
-            college login
-        </button>
+        </div>
+      </div>
+      <div class="col py-3">
+        <div class="container m-4">
+          <h4>Analytics</h4>
+          <div class="container-sm d-flex justify-content-between" style="margin-top:25px ;">
+            <div class="col-2.1 rounded-2 " style="background: rgb(42,34,172);
+            background: linear-gradient(90deg, rgba(42,34,172,1) 0%, rgba(78,100,176,1) 56%);">
+              <div class="card-body p-3">
+                <h4 class="card-title p-1 text-light">Registered Students</h6>
+                  <br>
+                  <h2 class="card-text p-1 text-light">{{student_len}}</h2>
+              </div>
+            </div>
 
-        <!-- AICTE login -->
-        <div class="modal fade" id="aicte_login" tabindex="-1"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">AICTE Login</h5>
-                    </div>
-                    <div class="modal-body">
+            <div class="col-2.1 rounded-2 " style="
+             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(151,216,196,1) 0%, rgba(35,214,159,1) 98%)">
+              <div class="card-body p-3 ">
+                <h4 class="card-title p-1 text-light">Registered Companies</h6>
+                  <br>
+                  <h2 class="card-text p-1 text-light">none</h2>
+              </div>
+            </div>
 
-                        <form class="container" method="post" action="{% url 'aicte_login' %}">
-                            {% csrf_token%}
-                            <div class="mb-1 row">
-                                <div class="col-3">
-                                    <label for="exampleInputName" class="form-label">Username</label>
-                                </div>
-                                <div class="col-9">
-                                    <input type="username" class="form-control" name="aicte_username"/>
-                                </div>
-                            </div>
-                            <div class="mb-2 row">
-                                <div class="col-3">
-                                    <label for="exampleInputAge" class="form-label">Password</label>
-                                </div>
-                                <div class="col-9">
-                                    <input type="password" class="form-control" name="aicte_password"/>
-                                </div>
-                            </div>
+            <div class="col-2.1 rounded-2 " style="background: rgb(18,120,210);
+                 background: linear-gradient(90deg, rgba(18,120,210,1) 6%, rgba(107,154,196,1) 52%);">
+              <div class="card-body p-3">
+                <h4 class="card-title p-1 text-light">Registered Colleges</h6>
+                  <br>
+                  <h2 class="card-text p-1 text-light">{{college_len}}</h2>
+              </div>
+            </div>
 
-                            <div class="modal-footer">
-                                <input type="submit" class="btn btn-primary">
-                            </div>
-                        </form>
+            <div class="col-2.1 rounded-2" style="background: rgb(173,128,36);
+                     background: linear-gradient(90deg, rgba(173,128,36,1) 6%, rgba(244,185,66,1) 32%);">
+              <div class="card-body p-3">
+                <h4 class="card-title p-1 text-light">Registered Universities</h6>
+                  <br>
+                  <h2 class="card-text p-1 text-light">{{uni_len}}</h2>
+              </div>
+            </div>
 
-                    </div>
-                    
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal AICTE Login -->
+  <div class="modal fade" id="aicte_login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">AICTE Login</h5>
+        </div>
+        <div class="modal-body">
+
+          <form class="container" method="post" action="{% url 'aicte_login' %}">
+            {% csrf_token%}
+            <div class="mb-1 row">
+                <div class="col-3">
+                    <label for="exampleInputName" class="form-label">Username</label>
+                </div>
+                <div class="col-9">
+                    <input type="username" class="form-control" name="aicte_username"/>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- college login -->
-    <div class="modal fade" id="college_login" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">College login</h5>
+            <div class="mb-2 row">
+                <div class="col-3">
+                    <label for="exampleInputAge" class="form-label">Password</label>
                 </div>
-                <div class="modal-body">
-
-                    <form class="container" method="post" action="{% url 'college_login'%}">
-                        {% csrf_token %}
-                        <div class="mb-1 row">
-                            <div class="col-3">
-                                <label for="exampleInputName" class="form-label">Username</label>
-                            </div>
-                            <div class="col-9">
-                                <input type="username" class="form-control" name="college_username"/>
-                            </div>
-                        </div>
-                        <div class="mb-2 row">
-                            <div class="col-3">
-                                <label for="exampleInputAge" class="form-label">Password</label>
-                            </div>
-                            <div class="col-9">
-                                <input type="password" class="form-control" name="college_password"/>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary">
-                        </div>
-                    </form>
-
+                <div class="col-9">
+                    <input type="password" class="form-control" name="aicte_password"/>
                 </div>
             </div>
+
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary">
+            </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Modal College Login -->
+  <div class="modal fade" id="college_login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">College Login</h5>
         </div>
+        <div class="modal-body">
+
+          <form class="container" method="post" action="{% url 'college_login'%}">
+            {% csrf_token %}
+            <div class="mb-1 row">
+                <div class="col-3">
+                    <label for="exampleInputName" class="form-label">Username</label>
+                </div>
+                <div class="col-9">
+                    <input type="username" class="form-control" name="college_username"/>
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <div class="col-3">
+                    <label for="exampleInputAge" class="form-label">Password</label>
+                </div>
+                <div class="col-9">
+                    <input type="password" class="form-control" name="college_password"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
+  <!-- Modal Student Login -->
+  <div class="modal fade" id="student_login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Student Login</h5>
+        </div>
+        <div class="modal-body">
+
+          <form class="container" method="post" action="{% url 'student_login'%}">
+            {% csrf_token %}
+            <div class="mb-1 row">
+                <div class="col-3">
+                    <label for="exampleInputName" class="form-label">Username</label>
+                </div>
+                <div class="col-9">
+                    <input type="username" class="form-control" name="student_adhar"/>
+                </div>
+            </div>
+            <div class="mb-2 row">
+                <div class="col-3">
+                    <label for="exampleInputAge" class="form-label">Password</label>
+                </div>
+                <div class="col-9">
+                    <input type="password" class="form-control" name="student_password"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary">
+            </div>
+        </form>
+      </div>
     </div>
+  </div>
+</div>
+  <!-- Modal Student Register -->
+  <div class="modal fade" id="student_register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Student Register</h5>
+        </div>
+        <div class="modal-body">
 
-    <script>
+          <form method="post" class="csv_data" action = "{% url 'student_register'%}">
+            {% csrf_token %}
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputName" class="form-label">Name</label>
+              </div>
+              <div class="col-9">
+                <input id="student-name" type="Name" class="form-control" name="name"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label class="form-label">Aadhar Number</label>
+              </div>
+              <div class="col-9">
+                <input type="text" id="student-phon" class="form-control" name="adhar_number"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label class="form-label">Password</label>
+              </div>
+              <div class="col-9">
+                <input type="password" id="student-phon" class="form-control" name="password"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputDate" class="form-label">Date Of Birth</label>
+              </div>
+              <div class="col-9">
+                <input role="button" type="Date" id="student-dob" class="form-control" id="exampleInputDate" name="dob"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputCityAddress" class="form-label">City</label>
+              </div>
+              <div class="col-9">
+                <input type="CityAddress" id="student-CityaAddress" class="form-control" name="city"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputCityAddress" class="form-label">State</label>
+              </div>
+              <div class="col-9">
+                <input type="State" list="States" id="student-state" class="form-control" placeholder="Select..." name="state"/>
+                <datalist id="States">
+                  <option value="Andhra Pradesh"></option>
+                  <option value="Arunachal Pradesh"></option>
+                  <option value="Assam"></option>
+                  <option value="Bihar"></option>
+                  <option value="Chhattisgarh"></option>
+                  <option value="Goa"></option>
+                  <option value="Gujarat"></option>
+                  <option value="Haryana"></option>
+                  <option value="Himachal Pradesh"></option>
+                  <option value="Jharkhand"></option>
+                  <option value="Karnataka"></option>
+                  <option value="Kerala"></option>
+                  <option value="Madhya Pradesh"></option>
+                  <option value="Maharashtra"></option>
+                  <option value="Manipur"></option>
+                  <option value="Meghalaya"></option>
+                  <option value="Mizoram"></option>
+                  <option value="Nagaland"></option>
+                  <option value="Odisha"></option>
+                  <option value="Punjab"></option>
+                  <option value="Rajasthan"></option>
+                  <option value="Sikkim"></option>
+                  <option value="Tamil Nadu"></option>
+                  <option value="Telangana"></option>
+                  <option value="Tripura"></option>
+                  <option value="Uttarakhand"></option>
+                  <option value="Uttar Pradesh"></option>
+                  <option value="West Bengal"></option>
 
-        window.onload = function () {
-            console.log("not");
-            $('#exampleModal').modal('show');
-            console.log("clicked");
-        }
-    </script>
+                </datalist>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputZipCode" class="form-label">ZipCode</label>
+              </div>
+              <div class="col-9">
+                <input type="ZipCode" id="student-ZipCode" class="form-control" name="zip_code"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputEmail" class="form-label">Email</label>
+              </div>
+              <div class="col-9">
+                <input type="Email" id="student-email" class="form-control" id="exampleInputEmail" name="email"/>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-3">
+                <label for="exampleInputEmail" class="form-label">Mobile Number</label>
+              </div>
+              <div class="col-9">
+                <input type="text" id="student-email" class="form-control" id="exampleInputEmail" name="mobile_number"/>
+              </div>
+            </div>
+            <div class="mb-4"></div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-warning">
+            </div>
+          </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

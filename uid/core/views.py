@@ -4,17 +4,24 @@ from urllib import response
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.shortcuts import render,HttpResponse,redirect
-from .models import College, Student
+from .models import College, Student, StudentCollegeData, University
 import datetime
 import csv
 import json
 from core.models import User
 import pandas as pd
+from pan_aadhar_ocr import Aadhar_Info_Extractor
 
 # Create your views here.
 def homepage(request):
+    student_len = len(Student.objects.all())
+    uni_len = len(University.objects.all())
+    college_len = len(College.objects.all())
     context = {
         "homepage":"HELLO",
+        "student_len":student_len,
+        "uni_len":uni_len,
+        "college_len":college_len,
         "error":[]
     }
     return render(request,"index.html",context=context)
@@ -115,7 +122,7 @@ def aicte_view_students_data(request):
 
 def student_data(request,adhar_no):
     
-    student_data = Student.objects.filter(student_ext_id = adhar_no)
+    student_data = Student.objects.get(student__adhar_id = adhar_no)
     return render(request,"individ_student_data.html",context={"student_data":student_data})
 
 def aicte_toggle(request):
@@ -154,4 +161,61 @@ def upload_college(request):
         return render(request,"upload_college.html")
         
 
+def studentRegister(request):
+    if request.method == "POST":
+        
+        data = request.POST.dict()
+        student = Student.objects.create_student(
+            adhar_id=int(data["adhar_number"]),
+            password = data["password"],
+            name=data["name"],
+            dob=datetime.datetime.strptime(data["dob"],'%Y-%m-%d'),
+            city=data["city"],
+            state=data["state"],
+            zipcode=int(data["zip_code"]),
+            mobile_number=data["mobile_number"],
+            email=data["email"],
+            )
+        user = authenticate(request,username=str(data['adhar_number']),password=str(data['password']))
+        login(request,user)
+        return redirect(student_profile)
+        
+        
+    else:
+        return render(request,"student_register.html")
+        
+        
+def add_student_college_data(request):
     
+    if request.method == "POST":
+        data = request.POST.dict()
+        
+        StudentCollegeData.objects.create(
+            student=request.user.student_user,
+            college__college_id = data["college_id"],
+            date_of_admission = datetime.datetime.strptime(data["doa"],'%Y-%m-%d'),
+            semester = data["semester"],
+            branch =  data["branch"],
+            depart = data["depart"]
+        )
+        
+def studentLogin(request):
+    if request.method == "POST":
+        
+        data = request.POST.dict()
+        username = data["student_adhar"]
+        password = data["student_password"]
+        user = authenticate(request,username=str(username),password=str(password))
+        if user is not None:
+            login(request,user)
+            print("success")
+            return redirect(student_profile)
+            # return redirect(upload_students_data)
+        else:
+            print("Failed")
+            context = {"errors":["Username or Password Incorrect"]}
+            return render(request,"index.html",context=context)
+
+def student_profile(request):
+    
+    return render(request,"studentProfile.html", {"student":Student.objects.get(adhar_id=int(request.user.username))})
