@@ -1,0 +1,59 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+          <div class="col-auto bg-dark border border-warning border-2 border-start-0 border-bottom-0 border-top-0">
+            <div class="d-flex flex-column min-vh-100">
+              <a class="d-flex align-items-center pb-0 mb-md-0 me-md-auto text-white text-decoration-none">
+                <img src="{%static 'images/moe.png'%}" class="aicte-logo mx-5 mt-5 mb-4" width="90" height="90">
+              </a>
+              <ul class="nav flex-column align-items-center" id="menu">
+                <li class="nav-item">
+                  <a type="button" class="btn btn-outline-warning m-1" href="{% url 'aicte_view_college_data'%}">
+                    College Data
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a type="button" class="btn btn-outline-warning m-1" href="{% url 'aicte_view_students_data'%}">
+                    Student Data
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a type="button" class="btn btn-outline-warning m-1" href="{% url 'user_logout'%}">
+                    Log Out
+                  </a>
+                </li>
+              </ul>
+    
+            </div>
+          </div>
+
+    {% comment %} <div>
+        <div class="container-xl mt-3">
+            <a type="button" class="btn btn-primary me-2" href="{% url 'aicte_view_college_data'%}">
+                College Data
+            </a>
+    
+            <a type="button" class="btn btn-primary ms-2" href="{% url 'aicte_view_students_data'%}">
+                Student Data
+            </a>
+        </div> {% endcomment %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

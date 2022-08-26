@@ -39,7 +39,7 @@ def aicte_login(request):
         user = authenticate(request,username=str(username),password=str(password))
         if user is not None:
             login(request,user)
-            return redirect(aicte_toggle)
+            return redirect(aicte_view_college_data)
         else:
             context = {"errors":["Username or Password Incorrect"]}
             return render(request,"aicte_login.html",context=context)
@@ -112,7 +112,7 @@ def aicte_view_college_data(request):
     myFilter = CollegeFilter(request.GET, queryset=result)
     result = myFilter.qs
 
-    return render(request, "college_data.html", context = {"college_data": result, "myFilter":myFilter})
+    return render(request, "view_college_data.html", context = {"college_data": result, "myFilter":myFilter})
 
 
 def aicte_view_students_data(request):
@@ -127,14 +127,15 @@ def aicte_view_students_data(request):
 
 def student_data(request,adhar_no):
     
-    student_data = Student.objects.get(student__adhar_id = adhar_no)
-    return render(request,"individ_student_data.html",context={"student_data":student_data})
+    student= Student.objects.get(adhar_id = adhar_no)
+    data = StudentCollegeData.objects.filter(student=student)
+    return render(request,"individ_student_data.html",context={"student_data":data})
 
 # aicte
 # 3112_aicte
-def aicte_toggle(request):
+def college_data(request):
     
-    return render(request,"aicte_toggle.html")
+    return render(request,"college_data.html")
     
     
     
@@ -264,5 +265,6 @@ def add_academic_details(request):
         return render(request,"add_student_academic_data.html",context={"colleges_data":result})
             
         
-        
+def edit_data(request):
+    pass
 

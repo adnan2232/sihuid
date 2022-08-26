@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-{% load static%}
-=======
 {% load static %}
->>>>>>> 8d705b46b9b84b5871439b40ba1aa50f0f901967
 <!doctype html>
 <html lang="en">
 
@@ -31,13 +27,7 @@
             <li class="nav-item">
               <button type="button" class="btn btn-outline-warning m-1" data-bs-toggle="modal"
                 data-bs-target="#aicte_login">
-                AICTE Student login
-              </button>
-            </li>
-            <li class="nav-item">
-              <button type="button" class="btn btn-outline-warning m-1" data-bs-toggle="modal"
-                data-bs-target="#aicte_login">
-                AICTE College login
+                AICTE login
               </button>
             </li>
             <li class="nav-item">
@@ -373,7 +363,7 @@
 
     <script type="text/javascript">
       async function aicteLoginfun(){
-        const redirect = "{% url 'aicte_toggle'%}";
+        const redirect = "{% url 'college_data'%}";
         const url = "{% url 'aicte_login'%}";
         const username = $(".aicte_username");
         const password = $(".aicte_password");
