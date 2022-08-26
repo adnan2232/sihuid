@@ -10,9 +10,10 @@ import csv
 import json
 from core.models import User
 import pandas as pd
-from pan_aadhar_ocr import Aadhar_Info_Extractor
+# from pan_aadhar_ocr import Aadhar_Info_Extractor
 
 from .filters import CollegeFilter
+from .filters import StudentFilter
 
 # Create your views here.
 def homepage(request):
@@ -123,7 +124,11 @@ def aicte_view_students_data(request):
 
     result = Student.objects.all()
     print(result)
-    return render(request, "aicte_view_students_data.html", context = {"students_data": result})
+
+    myFilter = StudentFilter(request.GET, queryset = result)
+    result = myFilter.qs
+
+    return render(request, "aicte_view_students_data.html", context = {"students_data": result, "myFilter":myFilter})
 
 def student_data(request,adhar_no):
     
