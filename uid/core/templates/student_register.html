@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Register</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" class="csv_data" action = "{% url 'student_register'%}">
+        {% csrf_token %}
+
+        <label>Aadhaar Number: </label>
+        <input type="text" name="adhar_number"><br>
+        <label>Password: </label>
+        <input type="password" name="password"><br>
+        <label>Name: </label>
+        <input type="text" name="name"><br>
+        <label>Date of Birth: </label>
+        <input type="date" name="dob"><br>
+        <label>city: </label>
+        <input type="text" name="city"><br>
+        <label>state: </label>
+        <input type="text" name="state"><br>
+        <label>zipcode: </label>
+        <input type="text" name="zip_code"><br>
+        <label>Mobie_number: </label>
+        <input type="text" name="mobile_number"><br>
+        <label>Email: </label>
+        <input type="email" name="email"><br>
+        <label>Aadhaar Front Image: </label>
+        <input type="file" name="front_image"><br>
+        <label>Aadhaar Back Image: </label>
+        <input type="file" name="back_image"><br>
+        <input type="submit">
+    </form>
+
+    {{error}}
+</body>
+</html>

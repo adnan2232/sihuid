@@ -9,7 +9,15 @@
 <body>
     
     {% for data in student_data%}
-        {{data}}
+        <p>Name: {{data.student_name}}</p>
+        <p>Aadhaar Number: {{data.student_ext_id}}</p>
+        <p>Current Internal Id: {{data.student_current_id}}</p>
+        <p>Year: {{data.student_year}}</p>
+        <p>Date of admission: {{data.student_admission_date}}</p>
+        <p>College: {{data.student_college.college_name}}</p>
+        <p>Branch: {{data.student_branch}}</p>
+        <p>Department: {{data.student_department}}</p>
+        <p>Cgpa: {{data.student_cgpa}}</p>
 
     {% endfor %}
 </body>

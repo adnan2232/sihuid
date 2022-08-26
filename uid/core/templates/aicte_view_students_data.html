@@ -51,19 +51,26 @@
                     <tr>
                         <th scope="col">Aadhar Number</th>
                         <th scope="col">Name</th>
-                        <th scope="col">GrNo</th>
-                        <th scope="col">College</th>
-                        <th scope="col"></th>
+                        <th scope="col">Date of birth</th>
+                        <th scope="col">city</th>
+                        <th scope="col">state</th>
+                        <th scope="col">zipcode</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Mobile Number</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for student_data in students_data%}
                     <tr>
-                        <th scope="row">{{student_data.student_ext_id}}</th>
-                        <td>{{student_data.student_name}}</td>
-                        <td>{{student_data.student_grno}}</td>
-                        <td>{{student_data.student_college.college_name}}</td>
-                        <td><a type="button" class="btn-primary" href="{% url 'student_data' student_data.student_ext_id%}">More</a></td>
+                        <th scope="row">{{student_data.adhar_id}}</th>
+                        <td>{{student_data.name}}</td>
+                        <td>{{student_data.dob}}</td>
+                        <td>{{student_data.city}}</td>
+                        <td>{{student_data.state}}</td>
+                        <td>{{student_data.zipcode}}</td>
+                        <td>{{student_data.email}}</td>
+                        <td>{{student_data.mobile_number}}</td>
+                        <td><a type="button" class="btn-primary" href="{% url 'student_data' student_data.adhar_id%}">More</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
