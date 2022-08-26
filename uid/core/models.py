@@ -134,7 +134,26 @@ class Student(models.Model):
         return (self.name)
     objects = StudentManager()
     
+
+
+class StudentCollegeDataManager(models.Model):
     
+    def create_student_college_data(self,student,college,date_of_admission,semester,branch,depart,gr_no):
+        stud_data_uid = str(college.college_id)+str(gr_no)+str(date_of_admission)+str(date.today())
+        data = StudentCollegeData.objects.create(
+            stud_data_uid =stud_data_uid,
+            student=student,
+            college=college,
+            date_of_admission=date_of_admission,
+            semester=semester,
+            branch=branch,
+            depart=depart,
+            gr_no=gr_no
+        )
+        data.save()
+        return data
+        
+
 class StudentCollegeData(models.Model):
     
     
@@ -143,6 +162,7 @@ class StudentCollegeData(models.Model):
         ("app","APPROVED"),
         ("rej","REJECTED")
     ]
+    stud_data_uid = models.CharField(max_length=100)
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     college = models.ForeignKey(College,on_delete=models.SET_NULL,null=True)
     status = models.CharField(choices=STATUS_CHOICES,max_length=3,default="pen")
@@ -151,6 +171,7 @@ class StudentCollegeData(models.Model):
     semester = models.IntegerField()
     branch = models.CharField(max_length=50)
     depart = models.CharField(max_length=50)
+    gr_no = models.CharField(max_length=50)
     
 
 class AICTEManager(BaseUserManager):
