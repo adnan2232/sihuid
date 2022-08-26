@@ -52,14 +52,14 @@
         {% comment %} <a type="button" class="btn btn-primary col-3" data-bs-toggle="modal" href="{% url 'upload_students_data' %}"> Upload Data by CSV </a> {% endcomment %}
 
         
-        <button
+        {% comment %} <button
           type="button"
           class="btn btn-primary col-3"
           data-bs-toggle="modal"
           data-bs-target="#upload_data"
         >
           Upload Data by CSV
-        </button>
+        </button> {% endcomment %}
 
         <!-- Button trigger Add Student -->
         {% comment %} <button
@@ -70,7 +70,7 @@
         >
           Add Student
         </button> {% endcomment %}
-        <a type="button" class="btn btn-primary col-3" data-bs-toggle="modal" href="{% url 'upload_students_data' %}"> Add Student </a>
+        {% comment %} <a type="button" class="btn btn-primary col-3" data-bs-toggle="modal" href="{% url 'upload_students_data' %}"> Add Student </a> {% endcomment %}
 
 
         <!-- Button trigger View/Edit Student data -->
@@ -79,8 +79,25 @@
           class="btn btn-primary col-3"
           href="{% url 'college_view_students_data' %}"
         >
-          View/Edit Student data
+          View Student data
         </a>
+
+        <a
+          type="button"
+          class="btn btn-primary col-3"
+          href="{% url 'college_view_students_data' %}"
+        >
+          Pending Request
+        </a>
+
+        <a
+          type="button"
+          class="btn btn-primary col-3"
+          {% comment %} href="{% url 'college_view_students_data' %}" {% endcomment %}
+        >
+          Rejected Request
+        </a>
+
       </div>
     </div>
 
