@@ -78,7 +78,8 @@ def view_students_data(request):
 
     print(request.user.college_user)
 
-    result = request.user.college_user.student_set.all()
+    # result = request.user.college_user.student_set.all()
+    result = StudentCollegeData.objects.filter(college = request.user.college_user)
     # print(result)
     return render(request, "students_data.html", context = {"student_data": result})
 
@@ -169,7 +170,12 @@ def upload_college(request):
         return redirect(aicte_view_college_data)
     else:
         return render(request,"upload_college.html")
-        
+
+def pending_request(request):
+    pass
+
+def rejected_request(request):
+    pass
 
 def studentRegister(request):
     if request.method == "POST":
