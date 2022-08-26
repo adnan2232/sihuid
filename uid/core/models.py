@@ -136,7 +136,7 @@ class Student(models.Model):
     
 
 
-class StudentCollegeDataManager(models.Model):
+class StudentCollegeDataManager(models.Manager):
     
     def create_student_college_data(self,student,college,date_of_admission,semester,branch,depart,gr_no):
         stud_data_uid = str(college.college_id)+str(gr_no)+str(date_of_admission)+str(date.today())
@@ -173,9 +173,12 @@ class StudentCollegeData(models.Model):
     depart = models.CharField(max_length=50)
     gr_no = models.CharField(max_length=50)
     
+    objects = StudentCollegeDataManager()
+
     def __str__(self) -> str:
         return str(self.stud_data_uid)
-
+    
+   
 class AICTEManager(BaseUserManager):
     
     def create_aicte_user(self, aicte_username, aicte_email, password):

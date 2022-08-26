@@ -201,7 +201,7 @@ def studentRegister(request):
         return render(request,"student_register.html")
         
         
-def add_student_college_data(request):
+'''def add_student_college_data(request):
     
     if request.method == "POST":
         data = request.POST.dict()
@@ -213,7 +213,7 @@ def add_student_college_data(request):
             semester = data["semester"],
             branch =  data["branch"],
             depart = data["depart"]
-        )
+        )'''
         
 def studentLogin(request):
     if request.method == "POST":
@@ -237,31 +237,32 @@ def student_profile(request):
     return render(request,"studentProfile.html", {"student":Student.objects.get(adhar_id=int(request.user.username))})
 
 def student_college_data(request):
-    
-    return render(request,"student_college_data.html",{"student_college_data":request.user.student.studentcollegedata_set.all()})
+    data = StudentCollegeData.objects.filter(student=Student.objects.get(user=request.user))
+    return render(request,"student_college_data.html",{"student_college_data":data})
 
 def add_academic_details(request):
     
     if request.method == "POST":
-        try:
-            data = request.POST.dict()
-            college = College.objects.get(college_id=data["college_id"])
-            print(college)
-            student_college = StudentCollegeData.object.create_student_college_data(
-                student=request.user.student_user,
-                college=college[1],
-                date_of_admission=datetime.datetime.strptime(data["doa"]),
-                semester=data["semester"],
-                branch=data["branch"],
-                depart=data["depart"],
-                gr_no=data["grno"]
-                )
-            
-            return redirect(student_college_data)
+
+        data = json.loads(request.body.decode("utf-8"))
+        college = College.objects.get(college_id=data["college_id"])
+        print(college)
+        student = Student.objects.get(user=request.user)
+        print(student)
+        student_college = StudentCollegeData.objects.create_student_college_data(
+            student=student,
+            college=college,
+            date_of_admission=datetime.datetime.strptime(data["doa"],"%Y-%m-%d"),
+            semester=data["semester"],
+            branch=data["branch"],
+            depart=data["department"],
+            gr_no=data["grno"]
+            )
+        print(student_college)
         
-        except:
-            request.method = "GET"
-            return redirect(add_academic_details)
+        return HttpResponse(json.dumps({"message":"success"}),content_type="application/json")
+    
+        ''''''
     
     else:
         colleges = College.objects.all()

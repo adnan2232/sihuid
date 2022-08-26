@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 {% load static%}
-=======
-{% load static %}
->>>>>>> 8d705b46b9b84b5871439b40ba1aa50f0f901967
 <!doctype html>
 <html lang="en">
 
@@ -235,6 +231,7 @@
             </div>
             <div class="modal-footer">
               <input type="submit" class="btn btn-primary" id="studentLogin" onclick="studentLoginfun">
+            </div>
         </form>
       </div>
     </div>
@@ -264,7 +261,7 @@
                 <label class="form-label">Aadhar Number</label>
               </div>
               <div class="col-9">
-                <input type="text" id="student-adhar" class="form-control" name="adhar_number"/>
+                <input type="text" id="student-adhar" class="form-control" name="adhar_number" maxlength=12 minlength=12/>
               </div>
             </div>
             <div class="mb-3 row">
