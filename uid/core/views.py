@@ -224,3 +224,7 @@ def studentLogin(request):
 def student_profile(request):
     
     return render(request,"studentProfile.html", {"student":Student.objects.get(adhar_id=int(request.user.username))})
+
+def student_college_data(request):
+    
+    return render(request,"student_college_data.html",{"student_college_data":request.user.student.studentcollegedata_set.all()})

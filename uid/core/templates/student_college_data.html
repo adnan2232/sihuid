@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Education</title>
+</head>
+<body>
+    {% for data in student_college_data%}
+        <p>College Name: {{data.college.college_name}}</p><br>
+        <p>Date of issue: {{data.date_of_issue}}</p>
+        <p>Date of admission: {{data.date_of_admission}}</p>
+        <p>Semester: {{data.semester}}</p>
+        <p>Branch: {{data.branch}}</p>
+        <p>Department: {{data.department}}</p>
+        <p>Status: {{data.status}}</p>
+    {% endfor %}
+</body>
+</html>

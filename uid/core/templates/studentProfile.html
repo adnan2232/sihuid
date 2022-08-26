@@ -20,25 +20,32 @@
                         <img src="images/logo.png" class="aicte-logo mx-5 mt-5 mb-4" width="90" height="90">
                     </a>
                     <ul class="nav flex-column align-items-center" id="menu">
+
                         <li class="nav-item">
-                            <button type="button" class="btn btn-outline-warning m-1" >
-                                Home
-                            </button>
-                        </li>
-                        <li class="nav-item">
+                            <a href="{% url 'student_profile'%}">
                             <button type="button" class="btn btn-outline-warning m-1" >
                                 Profile
                             </button>
+                            </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{% url 'student_college_data'%}" style="text-decoration:none">
                             <button type="button" class="btn btn-outline-warning m-1" >
-                                History
+                                My Education
                             </button>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <button type="button" class="btn btn-outline-warning m-1">
-                                Request College
+                                Add College
                             </button>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'user_logout'%}">
+                            <button type="button" class="btn btn-outline-warning m-1">
+                                Logout
+                            </button>
+                            </a>
                         </li>
                     </ul>
 
