@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import *
+from .views import homepage, college_login, aicte_view_college_data, studentRegister, upload_college, upload_students_data, aicte_view_students_data, aicte_login, user_logout,aicte_toggle,student_data, view_students_data, college_dashboard,studentRegister,studentLogin,student_profile, pending_request, rejected_request
+from .views import student_college_data, add_academic_details 
 
+>>>>>>> 9336b8887aa5e63d48f6790b98119b9f0770db7d
 urlpatterns = [
     path("",homepage,name="homepage"),
     path("collegelogin",college_login,name="college_login"),
