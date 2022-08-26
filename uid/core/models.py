@@ -173,6 +173,8 @@ class StudentCollegeData(models.Model):
     depart = models.CharField(max_length=50)
     gr_no = models.CharField(max_length=50)
     
+    def __str__(self) -> str:
+        return str(self.stud_data_uid)
 
 class AICTEManager(BaseUserManager):
     

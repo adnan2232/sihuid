@@ -240,9 +240,10 @@ def add_academic_details(request):
         try:
             data = request.POST.dict()
             college = College.objects.get(college_id=data["college_id"])
+            print(college)
             student_college = StudentCollegeData.object.create_student_college_data(
                 student=request.user.student_user,
-                college=college,
+                college=college[1],
                 date_of_admission=datetime.datetime.strptime(data["doa"]),
                 semester=data["semester"],
                 branch=data["branch"],
@@ -254,16 +255,33 @@ def add_academic_details(request):
         
         except:
             request.method = "GET"
-            return render(request,"add_student_academic_data.html",context={"errors":["Somethings went Wrong!!!"]})
+            return redirect(add_academic_details)
     
     else:
         colleges = College.objects.all()
         result = []
         for college in colleges:
-            result.append({"college_name":college.college_name,"college_id":college.college_id})
+            result.append({"college_id":college.college_id,"college_name":college.college_name})
             
         return render(request,"add_student_academic_data.html",context={"colleges_data":result})
             
         
         
-
+def singlePointLogin(request):
+    
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            user = authenticate(request,username=str(data["username"]),password=str(data["password"]))
+            if user is not None:
+                login(request,user)
+                resp = {"message":"Success"}
+                return HttpResponse(json.dumps(resp), content_type="application/json")
+            else:
+                resp = {"message":"DoesnotMatch"}
+                return HttpResponse(json.dumps(resp), content_type="application/json")
+        
+        except Exception as e:
+            print(e)
+            resp = {"message":"Fail"}
+            return HttpResponse(json.dumps(resp), content_type="application/json")
